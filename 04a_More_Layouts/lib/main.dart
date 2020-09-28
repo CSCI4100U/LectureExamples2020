@@ -1,56 +1,80 @@
 import 'package:flutter/material.dart';
 
+import 'tab_page.dart';
+import 'list_view.dart';
+import 'grid_view.dart';
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Basic Layout',
+      title: 'More Layouts',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BasicLayout(title: 'Basic Layout'),
+      home: MainPage(title: 'More Layouts'),
     );
   }
 }
 
-class BasicLayoutStateless extends StatelessWidget {
-  BasicLayoutStateless({Key key, this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  MainPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(child: Text('Hello world!'));
-  }
+  _MainPageState createState() => _MainPageState();
 }
 
-class BasicLayout extends StatefulWidget {
-  BasicLayout({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _BasicLayoutState createState() => _BasicLayoutState();
-}
-
-class _BasicLayoutState extends State<BasicLayout> {
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    List<LayoutExample> options = <LayoutExample>[
+      LayoutExample(
+        title: 'Column',
+        icon: Icons.view_column,
+        builder: buildColumnWidget,
       ),
-      body: _buildColumnWidget(),
+      LayoutExample(
+        title: 'Row',
+        icon: Icons.reorder,
+        builder: buildRowWidget,
+      ),
+      LayoutExample(
+        title: 'Stack',
+        icon: Icons.filter_none,
+        builder: buildStackWidget,
+      ),
+      LayoutExample(
+        title: 'ListView',
+        icon: Icons.view_list,
+        builder: buildListView,
+      ),
+      LayoutExample(
+        title: 'GridView',
+        icon: Icons.grid_on,
+        builder: buildGridView,
+      ),
+    ];
+
+    return DefaultTabController(
+      length: options.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          bottom: buildTabBar(options),
+        ),
+        body: buildTabBarView(options),
+      ),
     );
   }
 
-  Widget _buildStackWidget() {
+  Widget buildStackWidget() {
     return Stack(
       alignment: const Alignment(1.0, -0.5),
       children: <Widget>[
@@ -76,7 +100,7 @@ class _BasicLayoutState extends State<BasicLayout> {
     );
   }
 
-  Widget _buildRowWidget() {
+  Widget buildRowWidget() {
     return Container(
       height: 80.0,
       child: Row(
@@ -104,7 +128,7 @@ class _BasicLayoutState extends State<BasicLayout> {
     );
   }
 
-  Widget _buildColumnWidget() {
+  Widget buildColumnWidget() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
