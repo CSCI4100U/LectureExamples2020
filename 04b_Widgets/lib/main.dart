@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'views/registration_form.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -8,12 +10,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Forms and Widgets',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainPage(title: 'Flutter Demo Home Page'),
+      home: MainPage(title: 'Registration'),
     );
   }
 }
@@ -34,7 +36,10 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(),
+      body: Container(
+        padding: EdgeInsets.all(10.0),
+        child: RegistrationForm(),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
