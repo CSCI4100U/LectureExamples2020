@@ -8,9 +8,9 @@ class RegistrationForm extends StatefulWidget {
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String _country = 'Canada';
   String _email = '';
   String _password = '';
+  String _country = 'Canada';
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +37,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
             },
           ),
           TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-              validator: (String value) {
-                print('Validating password');
-                if (value.length < 8) {
-                  return 'Passwords must be at least 8 characters';
-                }
-                return null;
-              },
-              onSaved: (String value) {
-                _password = value;
-                print('Saving password: $_password');
-              }),
+            decoration: const InputDecoration(
+              labelText: 'Password',
+            ),
+            obscureText: true,
+            validator: (String value) {
+              print('Validating password');
+              if (value.length < 8) {
+                return 'Passwords must be at least 8 characters';
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _password = value;
+              print('Saving password: $_password');
+            },
+          ),
           DropdownButtonFormField(
             decoration: const InputDecoration(
               labelText: 'Country',
