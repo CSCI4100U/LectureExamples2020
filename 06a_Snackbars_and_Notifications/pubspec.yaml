@@ -14,9 +14,23 @@ dependencies:
 
   cupertino_icons: ^1.0.0
 
+  flutter_local_notifications:
+
+  timezone:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  flutter_launcher_icons: 
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/logo.png
+
+flutter_icons:
+  image_path: 'assets/logo.png'
+  android: 'launcher_icon'
+  ios: true
