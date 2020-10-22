@@ -55,44 +55,8 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              onChanged: (String value) { _title = value; },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Body'),
-              onChanged: (String value) { _body = value; },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Payload'),
-              onChanged: (String value) { _payload = value; },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                RaisedButton(
-                  onPressed: () {
-                    _notifications.sendNotificationNow(_title, _body, _payload);
-                  },
-                  child: Text('Now'),
-                ),
-                RaisedButton(
-                  onPressed: () async {
-                    var when = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 3));
-                    await _notifications.sendNotificationLater(
-                        _title, _body, when, _payload);
-                  },
-                  child: Text('In 3s'),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Builder(
+        builder: _formBuilder,
       ),
     );
   }
@@ -105,5 +69,57 @@ class _MainPageState extends State<MainPage> {
       print(
           '${pendingRequest.id}/${pendingRequest.title}/${pendingRequest.body}');
     }
+  }
+
+  Widget _formBuilder(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Title'),
+            onChanged: (String value) {
+              _title = value;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Body'),
+            onChanged: (String value) {
+              _body = value;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Payload'),
+            onChanged: (String value) {
+              _payload = value;
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                onPressed: () {
+                  _notifications.sendNotificationNow(_title, _body, _payload);
+                },
+                child: Text('Now'),
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  var when = tz.TZDateTime.now(tz.local)
+                      .add(const Duration(seconds: 3));
+                  await _notifications.sendNotificationLater(
+                      _title, _body, when, _payload);
+                  var snackbar =
+                      SnackBar(content: Text('Notification set for 3s'));
+                  Scaffold.of(context).showSnackBar(snackbar);
+                },
+                child: Text('In 3s'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
