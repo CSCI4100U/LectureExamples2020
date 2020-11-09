@@ -1,4 +1,4 @@
-name: comprehensive_app
+name: chorganizer
 description: A complete app to fill in any gaps
 
 publish_to: 'none'
@@ -13,6 +13,12 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
+
+  image_picker:
+  sqflite:
+  path:
+  transparent_image:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:
