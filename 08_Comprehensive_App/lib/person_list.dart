@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'add_person.dart';
 
-import 'model/db_utils.dart';
 import 'model/person.dart';
 import 'model/person_model.dart';
 
@@ -93,7 +92,7 @@ class _PeopleListState extends State<PeopleList> {
 
   Future<Person> _addPerson() async {
     Person person = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddPerson(title: 'Add Person')));
+        context, MaterialPageRoute(builder: (context) => AddPerson()));
 
     if (person != null && person.name != null && person.name.length > 0) {
       setState(() {

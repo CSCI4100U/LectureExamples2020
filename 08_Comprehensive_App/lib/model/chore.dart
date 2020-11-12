@@ -48,6 +48,25 @@ class Chore {
     this.saturday = map.containsKey('saturday') ? map['saturday'] : 0;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': this.id,
+      'name': this.name,
+      'assignedTo': this.assignedTo,
+      'icon': this.icon,
+      'repeat': this.repeat,
+      'time': this.time,
+      'date': this.date,
+      'sunday': this.sunday,
+      'monday': this.monday,
+      'tuesday': this.tuesday,
+      'wednesday': this.wednesday,
+      'thursday': this.thursday,
+      'friday': this.friday,
+      'saturday': this.saturday,
+    };
+  }
+
   String getWeekdaySummary() {
     String result = '';
 

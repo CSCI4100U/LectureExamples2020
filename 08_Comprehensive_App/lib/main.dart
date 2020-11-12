@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'daily_schedule.dart';
-import 'person_list.dart';
+import 'chore_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PeopleList(title: 'People'),
+      home: ChoreList(title: 'Chores'),
     );
   }
 }
