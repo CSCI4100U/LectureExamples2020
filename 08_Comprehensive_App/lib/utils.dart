@@ -1,3 +1,5 @@
+
+
 String twoDigits(int value) {
   String result = '';
   if (value < 10) {
@@ -26,8 +28,12 @@ String getWeekdayNameByIndex(int index) {
   } else if (index == 5) {
     return 'friday';
   } else if (index == 6) {
-    return 'saturdday';
+    return 'saturday';
   } else {
     return 'sunday';
   }
+}
+
+String notNull(String nullable) {
+  return nullable == null ? '' : nullable;
 }

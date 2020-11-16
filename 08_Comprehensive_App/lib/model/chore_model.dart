@@ -62,7 +62,8 @@ class ChoreModel {
       ],
       where:
           "repeat = 'Daily' OR (repeat = 'None' AND date = ?) OR (repeat = 'Weekly' AND $weekday = 1)",
-      whereArgs: [toDateString(date.year, date.month, date.day)]
+      whereArgs: [toDateString(date.year, date.month, date.day)],
+      orderBy: 'time',
     );
     List<Chore> chores = [];
     for (int i = 0; i < maps.length; i++) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'model/chore.dart';
 import 'model/person_model.dart';
+import 'select_icon.dart';
 import 'utils.dart';
 
 class AddChore extends StatelessWidget {
@@ -25,6 +26,8 @@ class _AddChoreState extends State<AddChoreForm> {
   Chore _chore;
   List<String> _peopleNames = [];
   String _iconImage = 'assets/icons8-info-100.png';
+  bool _showDaysOfWeek = false;
+  bool _showDate = true;
 
   void _initPeopleNames() {
     _personModel.getAllPeopleNames(null).then((peopleNames) {
@@ -95,6 +98,234 @@ class _AddChoreState extends State<AddChoreForm> {
                 ),
               ),
             ),
+            ListTile(
+              title: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text('Icon:'),
+              ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Select'),
+                    color: Colors.deepPurple,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return IconSelector.getIconSelectorDialog(context);
+                        },
+                      ).then((selectedIcon) {
+                        print(selectedIcon);
+                        setState(() {
+                          _iconImage = selectedIcon;
+                          _chore.icon = selectedIcon;
+                        });
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: Image.asset(_iconImage, height: 50),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: Text('Repeat Interval'),
+                  value: _chore.repeat,
+                  items: ['None', 'Daily', 'Weekly']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: _updateRepeat,
+                ),
+              ),
+            ),
+            !_showDate
+                ? Container()
+                : ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text('Date:'),
+                    ),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text('Select'),
+                          color: Colors.deepPurple,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              initialDate: now,
+                              firstDate: now,
+                              lastDate: DateTime(2100),
+                            ).then((value) {
+                              setState(() {
+                                _chore.date = toDateString(
+                                    value.year, value.month, value.day);
+                              });
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text(_chore == null || _chore.date == null
+                              ? toDateString(now.year, now.month, now.day)
+                              : _chore.date),
+                        ),
+                      ],
+                    ),
+                  ),
+            ListTile(
+              title: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text('Time:'),
+              ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Select'),
+                    color: Colors.deepPurple,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      showTimePicker(
+                        context: context,
+                        initialTime:
+                            TimeOfDay(hour: now.hour, minute: now.minute),
+                      ).then((value) {
+                        setState(() {
+                          _chore.time = toTimeString(value.hour, value.minute);
+                        });
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: Text(_chore.time),
+                  ),
+                ],
+              ),
+            ),
+            !_showDaysOfWeek
+                ? Container()
+                : ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text('Days of week:'),
+                    ),
+                    subtitle: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('Sunday'),
+                            Checkbox(
+                                value:
+                                    _chore.sunday == null || _chore.sunday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.sunday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                            Text('Monday'),
+                            Checkbox(
+                                value:
+                                    _chore.monday == null || _chore.monday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.monday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Tuesday'),
+                            Checkbox(
+                                value:
+                                    _chore.tuesday == null || _chore.tuesday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.tuesday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                            Text('Wednesday'),
+                            Checkbox(
+                                value:
+                                    _chore.wednesday == null || _chore.wednesday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.wednesday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Thursday'),
+                            Checkbox(
+                                value:
+                                    _chore.thursday == null || _chore.thursday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.thursday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                            Text('Friday'),
+                            Checkbox(
+                                value:
+                                    _chore.friday == null || _chore.friday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.friday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Saturday'),
+                            Checkbox(
+                                value:
+                                    _chore.saturday == null || _chore.saturday == 0
+                                        ? false
+                                        : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _chore.saturday =
+                                        value == null || value == false ? 0 : 1;
+                                  });
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: Center(
@@ -120,5 +351,24 @@ class _AddChoreState extends State<AddChoreForm> {
         ),
       ),
     );
+  }
+
+  void _updateRepeat(String value) {
+    print('updateRepeat($value)');
+    setState(() {
+      _chore.repeat = value;
+
+      if (value == 'Weekly') {
+        _showDaysOfWeek = true;
+      } else {
+        _showDaysOfWeek = false;
+      }
+
+      if (value == null || value == 'None') {
+        _showDate = true;
+      } else {
+        _showDate = false;
+      }
+    });
   }
 }
