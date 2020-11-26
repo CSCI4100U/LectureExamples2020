@@ -7,6 +7,8 @@ import 'package:flame/util.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/services.dart';
 
+import 'treasure_dash_game.dart';
+
 void main() async {
   Util flameUtil = Util();
   await flameUtil.fullScreen();
@@ -55,8 +57,22 @@ void main() async {
     'adventuregirl/slide2.png',
     'adventuregirl/slide3.png',
     'adventuregirl/slide4.png',
-    'adventuregirl/slide5.png', 
+    'adventuregirl/slide5.png',
   ]);
+
+  Flame.audio.disableLog();
+  await Flame.audio.loadAll(<String>[
+    'music/menu.mp3',
+    'music/gameplay.mp3',
+  ]);
+
+  SharedPreferences storage = await SharedPreferences.getInstance();
+
+  TreasureDashGame game = TreasureDashGame(storage);
+  TapGestureRecognizer tapper = TapGestureRecognizer();
+  tapper.onTapDown = game.onTapDown;
+  runApp(game.widget);
+  flameUtil.addGestureRecognizer(tapper);
 }
 
 class MyApp extends StatelessWidget {
