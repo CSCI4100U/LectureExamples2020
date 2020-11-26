@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dialogs and Navigation',
+      title: 'Geolocation and Geocoding',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainPage(title: 'Dialogs and Navigation'),
+      home: MainPage(title: 'Geolocation and Geocoding'),
     );
   }
 }
@@ -25,8 +27,35 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  var _geolocator = Geolocator();
+  var _positionMessage = '';
+
   @override
   Widget build(BuildContext context) {
+    _geolocator
+        .checkGeolocationPermissionStatus()
+        .then((GeolocationStatus status) {
+      print('Geolocation status: $status');
+    });
+
+    _geolocator
+        .getPositionStream(
+          LocationOptions(
+            accuracy: LocationAccuracy.best,
+            timeInterval: 5000,
+          ),
+        )
+        .listen(_updateLocationStream);
+
+    String address = '301 Front St W, Toronto, ON';
+    _geolocator.placemarkFromAddress(address).then((List<Placemark> places) {
+      print('Forward geocoding results:');
+      for (Placemark place in places) {
+        print(
+            '${place.name}, ${place.position.latitude}, ${place.position.longitude}');
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -36,20 +65,54 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Your location:',
+              textScaleFactor: 2.0,
             ),
             Text(
-              '0',
-              style: Theme.of(context).textTheme.display1,
+              _positionMessage,
+              textScaleFactor: 1.5,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _updateLocationOneTime,
+        tooltip: 'Update',
+        child: Icon(Icons.update),
       ),
     );
+  }
+
+  void _updateLocationOneTime() {
+    _geolocator
+        .getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
+    )
+        .then((Position userLocation) {
+      setState(() {
+        _positionMessage = userLocation.latitude.toString() +
+            ', ' +
+            userLocation.longitude.toString();
+      });
+    });
+  }
+
+  void _updateLocationStream(Position userLocation) {
+    setState(() {
+      _positionMessage = userLocation.latitude.toString() +
+          ', ' +
+          userLocation.longitude.toString();
+
+      _geolocator
+          .placemarkFromCoordinates(
+              userLocation.latitude, userLocation.longitude)
+          .then((List<Placemark> places) {
+        print('Reverse geocoding results:');
+        for (Placemark place in places) {
+          print(
+              '${place.name}, ${place.subThoroughfare}, ${place.thoroughfare}, ${place.locality}');
+        }
+      });
+    });
   }
 }
