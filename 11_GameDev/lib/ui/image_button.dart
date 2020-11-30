@@ -71,6 +71,33 @@ class ImageButton {
   }
 
   void setText(String text) {
-    
+    painter.text = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+    painter.layout();
+
+    position = Offset(
+      (screenSize.width * xPosRatio) - (painter.width / 2) + xTextOffset,
+      (screenSize.height * yPosRatio) - (painter.height / 2) + yTextOffset,
+    );
+
+    double rectWidth = painter.width + xPadding * 2;
+    double rectHeight = painter.height + yPadding * 2;
+    rect = Rect.fromLTWH(
+      (screenSize.width * xPosRatio) - (rectWidth / 2) + xOffset,
+      (screenSize.height * yPosRatio) - (rectHeight / 2) + yOffset,
+      rectWidth,
+      rectHeight,
+    );
+  }
+
+  void render(Canvas c) {
+    sprite.renderRect(c, rect);
+    painter.paint(c, position);
+  }
+
+  void onTapDown() {
+    this.onClick();
   }
 }
