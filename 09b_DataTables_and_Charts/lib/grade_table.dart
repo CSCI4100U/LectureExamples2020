@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'frequency_chart.dart';
-import 'grade.dart';
+import 'model/grade.dart';
 
 class GradesTable extends StatefulWidget {
   @override
@@ -119,7 +119,7 @@ class _GradesTableState extends State<GradesTable> {
           ),
         ],
         rows: _grades
-            .map((grade) => DataRow(
+            .map((Grade grade) => DataRow(
                   selected: _selectedGrades.contains(grade),
                   onSelectChanged: (selected) {
                     setState(() {

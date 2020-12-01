@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'grade.dart';
+import 'model/grade.dart';
 
 class FrequencyChart extends StatefulWidget {
   final List<Grade> grades;
