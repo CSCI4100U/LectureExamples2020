@@ -1,4 +1,7 @@
+// CSCI 4100U - 12 - Game Development
+
 import 'dart:ui';
+
 import 'package:flutter/painting.dart';
 
 class Text {
@@ -17,16 +20,12 @@ class Text {
   TextStyle textStyle;
   Offset position;
 
-  Text(
-      {this.screenSize,
-      this.text,
-      this.textSize,
-      this.colour,
-      this.shadowColour,
-      this.xOffset,
-      this.yOffset,
-      this.xPosRatio,
-      this.yPosRatio}) {
+  Text({this.screenSize, 
+        this.text,        this.textSize, 
+        this.colour,      this.shadowColour,
+        this.xOffset,     this.yOffset, 
+        this.xPosRatio,   this.yPosRatio}) {
+
     painter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
@@ -40,7 +39,7 @@ class Text {
           blurRadius: 7,
           color: shadowColour == null ? Color(0xff000000) : shadowColour,
           offset: Offset(3, 3),
-        )
+        ),
       ],
     );
 
@@ -54,6 +53,7 @@ class Text {
       text: text,
       style: textStyle,
     );
+
     painter.layout();
 
     position = Offset(
@@ -64,5 +64,10 @@ class Text {
 
   void render(Canvas c) {
     painter.paint(c, position);
+  }
+
+  void update(double t) {}
+
+  void onTapDown() {
   }
 }

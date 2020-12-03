@@ -1,17 +1,19 @@
+// CSCI 4100U - 12 - Game Development
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flame/util.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/services.dart';
+import 'package:flame/flame.dart';
 
 import 'treasure_dash_game.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   Util flameUtil = Util();
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.landscapeRight);

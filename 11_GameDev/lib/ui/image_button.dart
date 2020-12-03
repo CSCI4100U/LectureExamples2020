@@ -1,13 +1,15 @@
+// CSCI 4100U - 12 - Game Development
+
 import 'dart:ui';
+
 import 'package:flutter/painting.dart';
+
 import 'package:flame/sprite.dart';
 
 class ImageButton {
   Size screenSize;
-
   String image;
   String text;
-
   double textSize = 20;
   double xPadding = 0;
   double yPadding = 0;
@@ -17,9 +19,7 @@ class ImageButton {
   double yTextOffset = 0;
   double xPosRatio = 0.5;
   double yPosRatio = 0.5;
-
   Function onClick;
-
   Color colour;
   Color shadowColour;
 
@@ -29,23 +29,15 @@ class ImageButton {
   TextStyle textStyle;
   Offset position;
 
-  ImageButton({
-    this.screenSize,
-    this.image,
-    this.text,
-    this.textSize,
-    this.colour,
-    this.shadowColour,
-    this.xPadding,
-    this.yPadding,
-    this.xOffset,
-    this.yOffset,
-    this.xTextOffset,
-    this.yTextOffset,
-    this.xPosRatio,
-    this.yPosRatio,
-    this.onClick,
-  }) {
+  ImageButton({ this.screenSize,  this.image, 
+                this.text,        this.textSize, 
+                this.colour,      this.shadowColour,
+                this.xPadding,    this.yPadding, 
+                this.xOffset,     this.yOffset, 
+                this.xTextOffset, this.yTextOffset,
+                this.xPosRatio,   this.yPosRatio,
+                this.onClick}) {
+
     sprite = Sprite(image);
 
     painter = TextPainter(
@@ -75,6 +67,7 @@ class ImageButton {
       text: text,
       style: textStyle,
     );
+
     painter.layout();
 
     position = Offset(
@@ -96,6 +89,8 @@ class ImageButton {
     sprite.renderRect(c, rect);
     painter.paint(c, position);
   }
+
+  void update(double t) {}
 
   void onTapDown() {
     this.onClick();
