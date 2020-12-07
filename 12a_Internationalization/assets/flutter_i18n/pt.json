@@ -1,0 +1,12 @@
+{
+    "login": {
+        "success": "Iniciar sessão com êxito: {username}",
+        "failure": "Credenciais de acesso incorrectas",
+        "num_attempts-0": "{attempts} tentativas falhadas",
+        "num_attempts-1": "{attempt} tentativa falhada",
+        "num_attempts-2": "{attempts} tentativas falhadas",
+        "username": "Nome de usuário:",
+        "password": "Senha:",
+        "login": "Iniciar sessão"
+    }
+}
